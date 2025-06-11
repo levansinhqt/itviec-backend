@@ -4,6 +4,7 @@ import CandidateDAO from "../../candidate/dao/cadidate.dao.js";
 import bcrypt from "bcryptjs";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import Role from "../../../shared/constants/role.enum.js";
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ class CandidateAuthService {
             fullName, 
             email, 
             password: hashed,
-            role: 'candidate'
+            role: Role.CANDIDATE
         });
         
         return {
@@ -39,10 +40,11 @@ class CandidateAuthService {
 
         const payload = {
             email: candidate.email,
-            role: candidate.role
+            role: candidate.role,
+            userId: candidate._id,
         }
 
-        const token = jwt.sign(payload, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN});
         
         return {
             token

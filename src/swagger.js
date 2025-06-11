@@ -1,5 +1,10 @@
 // swagger.js
 import swaggerJSDoc from 'swagger-jsdoc';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const hostUrl = process.env.RENDER_EXTERNAL_URL || 'http://localhost:8000/api/v1';
 
 const options = {
   definition: {
@@ -11,7 +16,7 @@ const options = {
     },
     servers: [
       {
-        url: 'http://localhost:8000/api/v1',
+        url: hostUrl,
       },
     ],
   },

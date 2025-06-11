@@ -1,8 +1,12 @@
-import CandidateDAO from "./candidate.dao.js";
+import NotFoundError from "../../../shared/exceptions/NotFoundError.exception.js";
+import CandidateDAO from "../dao/cadidate.dao.js";
 
 class CandidateService {
     static async getProfile(email){
-        return await CandidateDAO.findByEmail(email);
+        const profile = CandidateDAO.findByEmail(email);
+        if(!profile) throw new NotFoundError();
+
+        return profile;
     }
 
     static async updateProfile(email, newProfile){

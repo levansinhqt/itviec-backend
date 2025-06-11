@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Gender from "../../../shared/constants/gender.enum.js";
+import Role from "../../../shared/constants/role.enum.js";
 
 const candidateSchema = new mongoose.Schema({
     fullName: {
@@ -29,6 +30,12 @@ const candidateSchema = new mongoose.Schema({
             type: String,
         },
         line: {type: String}
+    },
+    role: {
+        type: String,
+        enum: Object.values(Role),
+        default: Role.CANDIDATE,
+        require: true,
     },
 });
 

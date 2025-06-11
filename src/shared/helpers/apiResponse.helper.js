@@ -1,7 +1,7 @@
 
 export const apiSuccess = (res, data = null, message = 'Success', statusCode = 200) => {
     return res.status(statusCode).json({
-        success: true,
+        status: 'success',
         message,
         data
     });
@@ -9,7 +9,7 @@ export const apiSuccess = (res, data = null, message = 'Success', statusCode = 2
 
 export const apiError = (res, message = 'Error', statusCode = 500) => {
     return res.status(statusCode).json({
-        success: false,
+        status: 'error',
         message,
     });
 }

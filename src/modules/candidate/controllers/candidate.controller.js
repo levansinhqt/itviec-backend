@@ -1,21 +1,16 @@
 
-import UngVienService from '../services/candidate.service.js';
+import InvalidCredentialsError from '../../../shared/exceptions/InvalidCredentialsError.exception.js';
+import CandidateService from '../services/candidate.service.js';
+import { apiSuccess } from '../../../shared/helpers/apiResponse.helper.js';
 
-class UngVienController {
-    static async xemHoSoTongQuan(req, res, next) {
+class CandidateController {
+    static async getProfile(req, res, next) {
        try {
-            const email = req.email;
-            if(!email){
-                res.status(401).json({
-                    status: 'error',
-                    message: 'Bạn chưa đăng nhập. Vui lòng đăng nhập để xem thông tin!',
-                })
-            }
-            const thongTinUngVien = await UngVienService.xemHoSoTongQuan(email);
-            res.status(200).json({
-                status: 'success',
-                data: thongTinUngVien,
-            });
+            const email = req.user?.email;
+            if(!email) throw new InvalidCredentialsError();
+
+            const result = await CandidateService.getProfile(email);
+            return apiSuccess(res, result, 'Ứng viên xem thông tin hồ sơ thành công', 200);
        } catch (error) {
             next(error);
        } 
@@ -57,4 +52,4 @@ class UngVienController {
     }
 }
 
-export default UngVienController;
+export default CandidateController;

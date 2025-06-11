@@ -1,7 +1,7 @@
 import express from 'express';
-import authenticateToken from '../../../shared/middlewares/auth.middleware.js';
-import UngVienController from '../controllers/candidate.controller.js';
-import { validateCapNhat } from '../../../shared/middlewares/validate.middleware.js';
+import authenticateToken from '../../../shared/middlewares/authenticate.middleware.js';
+import CandidateController from '../controllers/candidate.controller.js';
+import checkRole from '../../../shared/middlewares/checkRole.middleware.js';
 
 const router = express.Router();
 
@@ -24,10 +24,9 @@ const router = express.Router();
 //Các endpoint_public
 
 //Các endpoint của người dùng
-router.get('/ho-so-cv', authenticateToken, UngVienController.xemHoSoTongQuan);
-router.put('/ho-so-cv', authenticateToken, validateCapNhat, UngVienController.suaHoSoTongQuan);
+router.get('/profile', authenticateToken, checkRole('candidate'), CandidateController.getProfile);
 
 //Các endpoint của quản trị viên nhằm quản lý người dùng
-router.get('/', UngVienController.xemDanhSachUngVien);
+
 
 export default router;
