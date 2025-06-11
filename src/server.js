@@ -21,8 +21,8 @@ app.use('/api/v1/candidate', CandidateRouter);
 // 3. Middleware xử lý 404 - Not Found
 app.use('*path', (req, res) => {
   res.status(404).json({
-    success: false,
-    message: 'Không tìm thấy API'})
+    status: error,
+    message: 'Not found'})
 });
 
 // 4. Middleware xử lý lỗi
