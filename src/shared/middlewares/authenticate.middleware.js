@@ -19,15 +19,19 @@ const authenticate = (req, res, next) => {
     const decoded = jwt.verify(token, JWT_SECRET);
 
     // Gán thông tin cần thiết vào req.user
-    req.user = {
+    req.account = {
       email: decoded.email,
       role: decoded.role,
-      userId: decoded.userId,
+      accountId: decoded.accountId,
     };
 
     next();
   } catch (err) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
+    return res.status(401).json({ message:
+        err.name === 'TokenExpiredError'
+          ? 'Phiên đăng đã hết hạn. Vui lòng đăng nhập lại.'
+          : 'Thông tin đăng nhập không hợp lệ. Vui lòng đăng nhập lại.',
+    }); 
   }
 };
 
